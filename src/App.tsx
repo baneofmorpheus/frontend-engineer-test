@@ -89,7 +89,7 @@ function App() {
           {characters.map(
             (singleCharacter: RickAndMortyCharacter, index: number) => {
               return (
-                <div key={index} className='shadow-lg'>
+                <div key={index} className='shadow-lg rounded-lg'>
                   <div>
                     <img
                       className='w-full h-auto '
@@ -104,12 +104,12 @@ function App() {
                             toggleFavorite(index);
                           }}
                           type='button'
-                          className='text-xl '
+                          className='text-2xl '
                         >
                           <FontAwesomeIcon
                             className={`${
                               favorites[index] ? 'text-red-600' : ''
-                            } hover:text-red-600`}
+                            } hover:text-red-600 `}
                             icon={favorites[index] ? faHeart : faHeartRegular}
                           />
                         </button>
