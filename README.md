@@ -2,6 +2,9 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+Interview task to create a searchable grid of first 19 rick and morty characters.
+Characters can be liked and stored in state.
+
 ## Available Scripts
 
 In the project directory, you can run:
