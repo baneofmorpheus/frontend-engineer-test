@@ -15,11 +15,19 @@ function App() {
   const [favorites, setFavorites] = useState<Array<boolean>>([]);
   const toast = useRef<ToastType>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const [nameFilter, setNameFilter] = useState<string>('');
+
+  const handleNameFilterSubmit = (event: React.KeyboardEvent<HTMLElement>) => {
+    if (event.key === 'Enter') {
+      getCharacters();
+    }
+  };
+
   const getCharacters = async () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        `https://rickandmortyapi.com/api/character`
+        `https://rickandmortyapi.com/api/character?name=${nameFilter}`
       );
       setCharacters(response.data.results);
     } catch (error: any) {
@@ -42,10 +50,42 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <div className='App min-h-screen pt-14 pb-14 pl-2 pr-2'>
+    <div className='App min-h-screen pt-10 pb-14 pl-2 pr-2'>
+      {!loading && characters.length < 1 && (
+        <div className='text-center'>
+          <p>No characters to display</p>
+        </div>
+      )}
+
+      <div className='mb-4 '>
+        <div className='w-full lg:w-3/4 ml-auto mr-auto mb-2 flex justify-center items-stretch'>
+          <input
+            value={nameFilter}
+            onChange={(event) => {
+              setNameFilter(event.target.value);
+            }}
+            onKeyDown={handleNameFilterSubmit}
+            className=' border-gray-400 border-2 w-3/4 md:w-2/4 rounded-r-none border-r-0 text-sm rounded-lg '
+            type='search'
+            placeholder=' Search by name'
+          />
+          <button
+            onClick={getCharacters}
+            className='bg-gray-600 rounded-r-lg text-sm text-white pl-4 pr-4 pt-2 pb-2 '
+            type='button'
+          >
+            Search
+          </button>
+        </div>
+        <p className='text-center text-xs text-gray-500'>
+          Clear the search field and click the search button to reset filter
+        </p>
+      </div>
+
       {loading && <Loader />}
+
       {!loading && (
-        <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
+        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'>
           {characters.map(
             (singleCharacter: RickAndMortyCharacter, index: number) => {
               return (
