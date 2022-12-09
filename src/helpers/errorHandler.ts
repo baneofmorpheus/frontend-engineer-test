@@ -22,11 +22,22 @@ const errorHandler = (error: any | AxiosError): ToastMessage => {
   /**Handle axios errors */
   const data: any = error.response!.data;
 
-  return {
-    severity: 'error',
-    summary: 'System error',
-    detail: data.message || 'Something went wrong',
-    life: 10000,
-  };
+  switch (error.response!.status) {
+    case 404:
+      return {
+        severity: 'error',
+        summary: 'Character not found',
+        detail: 'No character found matching that name`',
+        life: 10000,
+      };
+
+    default:
+      return {
+        severity: 'error',
+        summary: 'System error',
+        detail: data.error || 'Something went wrong',
+        life: 10000,
+      };
+  }
 };
 export default errorHandler;
